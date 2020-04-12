@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>COVID-19 Statistics</title>
+</head>
+<style>
+    .graph-active::before
+    {
+        content: 'Active: {{ percent_active }}%';
+        color: black;
+        position: absolute;
+        margin-left: 3%;
+        margin-top: -25px;
+    }
+    .graph-recovered::before
+    {
+        content: 'Recovered: {{ percent_recovered }}%';
+        color: black;
+        margin-left: 3%;
+        position: absolute;
+        margin-left: 3%;
+        margin-top: -25px;
+    }
+    .graph-fatal::before
+    {
+        content: 'Fatal: {{ percent_death }}%';
+        color: black;
+        margin-left: 3%;
+        position: absolute;
+        margin-left: 3%;
+        margin-top: -25px;
+    }
+    div.graph-active
+    {
+        margin-top: 90px;
+        height: 40px;
+        width: {{ percent_active }}%;
+        background: rgb(255, 71, 71);
+        border: none;
+        border-right: 5px solid transparent;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        cursor: pointer;
+        transition: .2s;
+    }
+    .graph-active:hover
+    {
+        border-color: rgb(255, 198, 198);
+    }
+    div.spacer-top
+    {
+        height: 30px;
+        width: 100%;
+    }
+    div.graph-recovered
+    {
+        margin-top: 30px;
+        height: 40px;
+        width: {{ percent_recovered }}%;
+        background: lightgreen;
+        border: none;
+        border-right: 5px solid transparent;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        cursor: pointer;
+        transition: .2s;
+    }
+    .graph-recovered:hover
+    {
+        border-color: rgb(198, 255, 201);
+    }
+    div.graph-fatal
+    {
+        margin-top: 30px;
+        height: 40px;
+        width: {{ percent_death }}%;
+        background: grey;
+        border: none;
+        border-right: 5px solid transparent;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        cursor: pointer;
+        transition: .2s;
+    }
+    .graph-fatal:hover
+    {
+        border-color: rgb(212, 212, 212);
+    }
+</style>
+<body>
+    <header>
+        <a class="branding-header" href="/">COVID-19 STATISTICS</a>
+        <div class="search">
+            <div class="input-container">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    {{ form.country_field(placeholder = "Country") }}
+                    {{ form.submit() }}
+                </form>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <span class="flash-message danger">{{ message }}</span>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="global-data">
+            Global:<br/>
+            <span class="global-legend">Total Confirmed: <span class="global-value">{{ global_data['TotalConfirmed'] }}</span></span>
+            <span class="global-legend">Total Active: <span class="global-value">{{ global_data['TotalConfirmed']-global_data['TotalRecovered']-global_data['TotalDeaths'] }}</span></span>
+            <span class="global-legend">Total Deaths: <span class="global-value">{{ global_data['TotalDeaths'] }}</span></span>
+        </div>
+        <div class="text-details" align="center">
+            <div class="details">
+                <div class="country-search">
+                    <div class="statistics">
+                        <h1 class="country-name">{{ user_country['country'] }}</h1>
+                        <div class="cases">
+                            <h3 class="report danger">Confirmed: {{ user_country['totalconfirmed'] }}</h3>
+                            <h3 class="report danger">Active: {{ user_country['totalactive'] }}</h3>
+                            <h3 class="report success">Recovered: {{ user_country['totalrecovered'] }}</h3>
+                            <h3 class="report failed">Fatal: {{ user_country['totaldeaths'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ranking" align="center">
+                <h1 class="ranking">Position:</h1>
+                <h1 class="ranking-number">
+                    {{ position }}
+                </h1>
+            </div>
+        </div>
+        <div class="graph-details">
+            <h1 class="graph-title">Graph</h1>
+            <div class="graph" align="bottom">
+                <div class="spacer-top"></div>
+                <div class="graph-active">
+                </div>
+                <div class="graph-recovered">
+                </div>
+                <div class="graph-fatal">
+                </div>
+            </div>
+            <legend>Legend: </legend>
+            <div class="legends">
+                <span class="ldata">Active: <span class="legend-active"></span></span>
+                <span class="ldata">Recovered: <span class="legend-recovered"></span></span>
+                <span class="ldata">Fatal: <span class="legend-fatal"></span></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

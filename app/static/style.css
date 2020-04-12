@@ -1,0 +1,183 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+*
+{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+header {
+	background-color: brown;
+	padding: 3%;
+	/*! width: 100vw; */
+}
+a.branding-header
+{
+    font-size: 150%;
+    text-decoration: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.container
+{
+}
+.right
+{
+    float: right;
+    margin-right: 0;
+}
+div.input-container
+{
+    box-shadow: rgb(209, 209, 209) 1px 1px 11px 1px;
+    width: max-content;
+    display: flex;
+    width: 95%;
+    background: white;
+    flex-wrap: wrap;
+}
+form
+{
+    display: contents;
+}
+input[type="text"]
+{
+    /*! width: 90%; */
+    flex: 1;
+    padding: 1%;
+    font-size: 150%;
+    border-radius: 5px;
+    border-spacing: 0;
+    border: none;
+}
+input[type="submit"]
+{
+    color: rgb(212, 212, 212);
+    background: white;
+    border: none;
+    cursor: pointer;
+    /*! float: right; */
+    height: 60px;
+    /*! margin-left: 70%; */
+}
+input[type="submit"]:active
+{
+    color: black;
+}
+div.statistics
+{
+    padding: 9%;
+}
+div.cases
+{
+    margin: 3%;
+    width: 25%;
+    border-radius: 5px;
+}
+h3.report
+{
+    border: none;
+    padding: 1%;
+    border-bottom: 1px solid black;
+}
+.success
+{
+    color: lightgreen;
+}
+.danger
+{
+    color: red;
+}
+.failed
+{
+    color: grey;
+}
+.moderate
+{
+    color: rgba(138, 138, 0, 0.438);
+}
+div.graph-details
+{
+    padding: 4%;
+}
+div.text-details
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+div.ranking
+{
+    padding: 4%;
+}
+h1.ranking
+{
+    color: grey;
+    font-size: 350%;
+}
+h1.ranking-number
+{
+    color: grey;
+    font-size: 250%;
+}
+div.details
+{
+    width: 50vw;
+}
+div.graph
+{
+    height: 60vh;
+    border: none;
+    border-left: 3px solid black;
+    border-bottom: 3px solid black;
+    margin-bottom: 5%;
+}
+
+div.legends
+{
+    padding: 2%;
+}
+span.legend-active
+{
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    background: rgb(255, 71, 71);
+}
+span.legend-recovered
+{
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    background: lightgreen;
+}
+span.legend-fatal
+{
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    background: grey;
+}
+.ldata
+{
+    margin-left: 2%;
+}
+.ldata:nth-child(1)
+{
+    margin: 0;
+}
+span.global-value
+{
+    color: red;
+}
+div.global-data
+{
+    padding: 2%;
+}
+span.global-legend
+{
+    padding: 1%;
+}
+div.search
+{
+    /*! background: white; */
+}

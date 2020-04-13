@@ -8,16 +8,13 @@ main = Blueprint('main',__name__)
 @main.route("/home", methods=['GET','POST'])
 def home():
     form = CountryFinderForm()
-    json_link = "https://api.covid19api.com/summary"
-    json_data = requests.get(json_link).text
-    json_data.replace('\n','')
-    loaded_json = json.loads(json_data)
-    global_data = loaded_json['Global']
-    loaded_json = sorted(loaded_json['Countries'], key=lambda x: x['TotalConfirmed'],reverse=True)
-    countries = loaded_json
+    link = "https://coronavirus-19-api.herokuapp.com/countries"
+    json_data = requests.get(link).text
+    global_data = json.loads(json_data)[7]
+    countries = json.loads(json_data)[8:]
     countries_separated = {}
     for country in countries:
-        countries_separated[country['Country']] = country
+        countries_separated[country['country']] = country
     countries = []
     countries_capitalized = list(countries_separated.keys())
     for country in countries_capitalized:
@@ -29,15 +26,14 @@ def home():
             capname = countries_capitalized[country_index]
             user_country = {}
             user_country['country'] = capname
-            user_country['totalconfirmed'] = countries_separated[capname]['TotalConfirmed']
-            user_country['newconfirmed'] = countries_separated[capname]['NewConfirmed']
-            user_country['totalrecovered'] = countries_separated[capname]['TotalRecovered']
-            user_country['newrecovered'] = countries_separated[capname]['NewRecovered']
-            user_country['totaldeaths'] = countries_separated[capname]['TotalDeaths']
-            user_country['newdeaths'] = countries_separated[capname]['TotalDeaths']
-            user_country['totalactive'] = (user_country['totalconfirmed']-user_country['totalrecovered']-user_country['totaldeaths'])
+            user_country['totalconfirmed'] = countries_separated[capname]['cases']
+            user_country['newconfirmed'] = countries_separated[capname]['todayCases']
+            user_country['totalrecovered'] = countries_separated[capname]['recovered']
+            user_country['totaldeaths'] = countries_separated[capname]['deaths']
+            user_country['newdeaths'] = countries_separated[capname]['todayDeaths']
+            user_country['totalactive'] = countries_separated[capname]['active']
             position = country_index
-            percent_active = ((user_country['totalconfirmed']-user_country['totalrecovered']-user_country['totaldeaths'])*100)/user_country['totalconfirmed']
+            percent_active = (user_country['totalactive']*100)/user_country['totalconfirmed']
             percent_recovered = (user_country['totalrecovered']*100)/user_country['totalconfirmed']
             percent_death = (user_country['totaldeaths']*100)/user_country['totalconfirmed']
             return render_template('main.html',
@@ -53,11 +49,10 @@ def home():
     user_country = {}
     fcountry = list(countries_separated.keys())[0]
     user_country['country'] = fcountry
-    user_country['totalconfirmed'] = countries_separated[fcountry]['TotalConfirmed']
-    user_country['newconfirmed'] = countries_separated[fcountry]['NewConfirmed']
-    user_country['totalrecovered'] = countries_separated[fcountry]['TotalRecovered']
-    user_country['newrecovered'] = countries_separated[fcountry]['NewRecovered']
-    user_country['totaldeaths'] = countries_separated[fcountry]['TotalDeaths']
+    user_country['totalconfirmed'] = countries_separated[fcountry]['cases']
+    user_country['newconfirmed'] = countries_separated[fcountry]['todayCases']
+    user_country['totalrecovered'] = countries_separated[fcountry]['recovered']
+    user_country['totaldeaths'] = countries_separated[fcountry]['deaths']
     position = countries.index(fcountry.lower())
     percent_active = ((int(user_country['totalconfirmed'])-int(user_country['totalrecovered'])-int(user_country['totaldeaths']))*100)/int(user_country['totalconfirmed'])
     percent_recovered = (user_country['totalrecovered']*100)/user_country['totalconfirmed']

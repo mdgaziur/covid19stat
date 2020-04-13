@@ -33,9 +33,18 @@ def home():
             user_country['newdeaths'] = countries_separated[capname]['todayDeaths']
             user_country['totalactive'] = countries_separated[capname]['active']
             position = country_index
-            percent_active = (user_country['totalactive']*100)/user_country['totalconfirmed']
-            percent_recovered = (user_country['totalrecovered']*100)/user_country['totalconfirmed']
-            percent_death = (user_country['totaldeaths']*100)/user_country['totalconfirmed']
+            if user_country['totalactive']:
+                percent_active = (user_country['totalactive']*100)/user_country['totalconfirmed']
+            else:
+                percent_active = 0
+            if user_country['totalrecovered']:
+                percent_recovered = (user_country['totalrecovered']*100)/user_country['totalconfirmed']
+            else:
+                percent_recovered = 0
+            if user_country['totaldeaths']:
+                percent_death = (user_country['totaldeaths']*100)/user_country['totalconfirmed']
+            else:
+                percent_death = 0
             return render_template('main.html',
                                    global_data = global_data,
                                    user_country = user_country,
@@ -48,15 +57,26 @@ def home():
             flash(f"No such country '{form.country_field.data}'!")
     user_country = {}
     fcountry = list(countries_separated.keys())[0]
+    global_data = json.loads(json_data)[7]
     user_country['country'] = fcountry
     user_country['totalconfirmed'] = countries_separated[fcountry]['cases']
     user_country['newconfirmed'] = countries_separated[fcountry]['todayCases']
     user_country['totalrecovered'] = countries_separated[fcountry]['recovered']
     user_country['totaldeaths'] = countries_separated[fcountry]['deaths']
-    position = countries.index(fcountry.lower())
-    percent_active = ((int(user_country['totalconfirmed'])-int(user_country['totalrecovered'])-int(user_country['totaldeaths']))*100)/int(user_country['totalconfirmed'])
-    percent_recovered = (user_country['totalrecovered']*100)/user_country['totalconfirmed']
-    percent_death = (user_country['totaldeaths']*100)/user_country['totalconfirmed']
+    user_country['totalactive'] = countries_separated[fcountry]['active']
+    position = 0
+    if user_country['totalactive']:
+        percent_active = (user_country['totalactive']*100)/user_country['totalconfirmed']
+    else:
+        percent_active = 0
+    if user_country['totalrecovered']:
+        percent_recovered = (user_country['totalrecovered']*100)/user_country['totalconfirmed']
+    else:
+        percent_recovered = 0
+    if user_country['totaldeaths']:
+        percent_death = (user_country['totaldeaths']*100)/user_country['totalconfirmed']
+    else:
+        percent_death = 0
     return render_template('main.html',
                            global_data = global_data,
                            user_country = user_country,

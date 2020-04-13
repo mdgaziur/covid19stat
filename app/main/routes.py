@@ -15,15 +15,16 @@ def home():
     countries_separated = {}
     for country in countries:
         countries_separated[country['country']] = country
+    countries_sorted = sorted(countries_separated, key= lambda x: countries_separated[x]['cases'],reverse=True)
     countries = []
-    countries_capitalized = list(countries_separated.keys())
-    for country in countries_capitalized:
+    countries_capitalized = list(countries_sorted)
+    for country in countries_sorted:
         countries.append(country.lower())
     if form.validate_on_submit():
         icountry = form.country_field.data.lower()
         if icountry in countries:
             country_index = countries.index(icountry)
-            capname = countries_capitalized[country_index]
+            capname = countries_sorted[country_index]
             user_country = {}
             user_country['country'] = capname
             user_country['totalconfirmed'] = countries_separated[capname]['cases']

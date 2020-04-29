@@ -10,8 +10,8 @@ def home():
     form = CountryFinderForm()
     link = "https://coronavirus-19-api.herokuapp.com/countries"
     json_data = requests.get(link).text
-    global_data = json.loads(json_data)[7]
-    countries = json.loads(json_data)[8:]
+    global_data = json.loads(json_data)[0]
+    countries = json.loads(json_data)[1:]
     countries_separated = {}
     for country in countries:
         countries_separated[country['country']] = country
@@ -57,7 +57,7 @@ def home():
         else:
             flash(f"No such country '{form.country_field.data}'!")
     user_country = {}
-    fcountry = list(countries_separated.keys())[0]
+    fcountry = list(countries_sorted)[0]
     global_data = json.loads(json_data)[7]
     user_country['country'] = fcountry
     user_country['totalconfirmed'] = countries_separated[fcountry]['cases']

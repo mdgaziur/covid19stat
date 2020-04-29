@@ -58,7 +58,6 @@ def home():
             flash(f"No such country '{form.country_field.data}'!")
     user_country = {}
     fcountry = list(countries_sorted)[0]
-    global_data = json.loads(json_data)[7]
     user_country['country'] = fcountry
     user_country['totalconfirmed'] = countries_separated[fcountry]['cases']
     user_country['newconfirmed'] = countries_separated[fcountry]['todayCases']
